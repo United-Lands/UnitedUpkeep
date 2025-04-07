@@ -27,6 +27,9 @@ multiplier:
     major: 0.3
     minor: 0.6
 
+territorialwars:
+  # Cooldown in minutes
+  togglecooldown: 4320
 
 # Text Formatting for the plugin
 errors:
@@ -36,6 +39,8 @@ errors:
   notMayor: "You must be the mayor of the town to use this command!"
   # The town that the user is trying to toggle territorial wars for is neutral
   neutralTown: "You cannot toggle territorial wars for a neutral town!"
+  # The cooldown for switching territorial wars is still acive 
+  onCooldown: "You cannot toggle territorial wars again for another {time}"
 
 titles-nation:
   major: "                          <gradient:#D4AF37:#FCFDD3><bold>MAJOR NATION</gradient>"
