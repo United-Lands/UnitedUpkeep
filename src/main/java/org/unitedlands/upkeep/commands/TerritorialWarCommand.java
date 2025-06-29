@@ -13,7 +13,6 @@ import java.util.List;
 
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -48,18 +47,15 @@ public class TerritorialWarCommand implements TabExecutor {
             Town town = TownyAPI.getInstance().getTown((Player) (sender));
             Resident resident = TownyAPI.getInstance().getResident((Player) (sender));
             if (town == null) {
-                TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&',
-                        this.unitedUpkeep.getConfig().getString("errors.noTown")));
+                TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.noTown"));
                 return true;
             }
             if (!town.isMayor(resident)) {
-                TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&',
-                        this.unitedUpkeep.getConfig().getString("errors.notMayor")));
+                TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.notMayor"));
                 return true;
             }
             if (town.isNeutral()) {
-                TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&',
-                        this.unitedUpkeep.getConfig().getString("errors.neutralTown")));
+                TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.neutralTown"));
                 return true;
             }
 
@@ -73,7 +69,7 @@ public class TerritorialWarCommand implements TabExecutor {
                     var error = this.unitedUpkeep.getConfig().getString("errors.onCooldown");
                     error = error.replace("{time}", formatDuration(cooldownTime - timeDifference));
 
-                    TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&', error));
+                    TownyMessaging.sendErrorMsg(sender, error);
                     return true;
                 }
             }
@@ -82,10 +78,9 @@ public class TerritorialWarCommand implements TabExecutor {
             TerritorialMetaController.setTerritorialWarSwitchTime(town);
 
             TownyMessaging.sendPrefixedTownMessage(town,
-                    ChatColor.translateAlternateColorCodes('&',
                             (TerritorialMetaController.toggledTerritorialWars(town)
                                     ? (this.unitedUpkeep.getConfig().getString("messages.enabledTerritorial"))
-                                    : (this.unitedUpkeep.getConfig().getString("messages.disabledTerritorial")))));
+                                    : (this.unitedUpkeep.getConfig().getString("messages.disabledTerritorial"))));
         } else {
             TownyMessaging.sendErrorMsg("You must be a player to use this command!");
         }

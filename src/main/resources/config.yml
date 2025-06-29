@@ -34,13 +34,13 @@ territorialwars:
 # Text Formatting for the plugin
 errors:
   # User is not in a town and is trying to toggle territorial wars
-  noTown: "You must be in a town to use this command!"
+  noTown: "§cYou must be in a town to use this command!"
   # User is not the mayor of the town
-  notMayor: "You must be the mayor of the town to use this command!"
+  notMayor: "§cYou must be the mayor of the town to use this command!"
   # The town that the user is trying to toggle territorial wars for is neutral
-  neutralTown: "You cannot toggle territorial wars for a neutral town!"
+  neutralTown: "§cYou cannot toggle territorial wars for a neutral town!"
   # The cooldown for switching territorial wars is still acive 
-  onCooldown: "You cannot toggle territorial wars again for another {time}"
+  onCooldown: "§cYou cannot toggle territorial wars again for another {time}"
 
 titles-nation:
   major: "                          <gradient:#D4AF37:#FCFDD3><bold>MAJOR NATION</gradient>"
@@ -52,4 +52,4 @@ titles-town:
 messages:
   enabledTerritorial: "Territorial wars have been enabled for your town!"
   disabledTerritorial: "Territorial wars have been disabled for your town!"
-  territorialWars: "<gold>.]|[.                          <red>(Territorial War)</red>                         .]|[.</gold>"
+  territorialWars: "§6.]|[.                          §4(Territorial War)§6                         .]|[."
