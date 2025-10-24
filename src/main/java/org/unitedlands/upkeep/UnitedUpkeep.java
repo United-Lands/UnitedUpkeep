@@ -4,6 +4,7 @@ import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.unitedlands.upkeep.commands.OfficialNationCommand;
+import org.unitedlands.upkeep.commands.TerritorialWarAdminCommand;
 import org.unitedlands.upkeep.commands.TerritorialWarCommand;
 import org.unitedlands.upkeep.listeners.CalculationListener;
 import org.unitedlands.upkeep.listeners.NeutralityToggleListener;
@@ -20,12 +21,12 @@ public class UnitedUpkeep extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new NeutralityToggleListener(), this);
         new OfficialNationCommand();
         new TerritorialWarCommand(this);
-
-
+        new TerritorialWarAdminCommand(this);
     }
 
     public void onDisable() {
         TownyCommandAddonAPI.removeSubCommand(CommandType.TOWNYADMIN_NATION, "powerlevel");
+        TownyCommandAddonAPI.removeSubCommand(CommandType.TOWNYADMIN_TOWN, "territorialWars");
         TownyCommandAddonAPI.removeSubCommand(CommandType.TOWN_TOGGLE, "territorialWars");
     }
 
