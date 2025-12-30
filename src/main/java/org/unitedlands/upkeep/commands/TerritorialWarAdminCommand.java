@@ -22,67 +22,42 @@ import org.jetbrains.annotations.Nullable;
 import org.unitedlands.upkeep.UnitedUpkeep;
 import org.unitedlands.upkeep.util.TerritorialMetaController;
 
-public class TerritorialWarCommand implements TabExecutor {
+public class TerritorialWarAdminCommand implements TabExecutor {
 
     private UnitedUpkeep unitedUpkeep;
 
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command,
             @NotNull String s, @NotNull String[] args) {
         return switch (args.length) {
-            case 1 -> BaseCommand.getTownyStartingWith(args[0], "n");
-            case 2 -> Arrays.asList("minor", "major");
-            case 3 -> Arrays.asList("true", "false");
             default -> Collections.emptyList();
         };
     }
 
-    public TerritorialWarCommand(UnitedUpkeep unitedUpkeep) {
+    public TerritorialWarAdminCommand(UnitedUpkeep unitedUpkeep) {
         this.unitedUpkeep = unitedUpkeep;
-        TownyCommandAddonAPI.addSubCommand(new AddonCommand(CommandType.TOWN_TOGGLE, "territorialWars", this));
+        TownyCommandAddonAPI.addSubCommand(new AddonCommand(CommandType.TOWNYADMIN_TOWN, "territorialWars", this));
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s,
             @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Town town = TownyAPI.getInstance().getTown((Player) (sender));
-            Resident resident = TownyAPI.getInstance().getResident((Player) (sender));
+
+        if (sender instanceof Player player) {
+
+            Town town = TownyAPI.getInstance().getTown(args[0]);
             if (town == null) {
                 TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.noTown"));
                 return true;
-            }
-            if (!town.isMayor(resident)) {
-                TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.notMayor"));
-                return true;
-            }
-            if (town.isNeutral()) {
-                TownyMessaging.sendErrorMsg(sender, this.unitedUpkeep.getConfig().getString("errors.neutralTown"));
-                return true;
-            }
-
-            var lastSwitchTime = TerritorialMetaController.getTerritorialWarSwitchTime(town);
-            if (lastSwitchTime != null) {
-                // Convert config cooldowntime to milliseconds
-                var cooldownTime = unitedUpkeep.getConfig().getLong("territorialwars.togglecooldown") * 60000;
-                var timeDifference = (System.currentTimeMillis() - lastSwitchTime);
-
-                if (timeDifference < cooldownTime) {
-                    var error = this.unitedUpkeep.getConfig().getString("errors.onCooldown");
-                    error = error.replace("{time}", formatDuration(cooldownTime - timeDifference));
-
-                    TownyMessaging.sendErrorMsg(sender, error);
-                    return true;
-                }
             }
 
             TerritorialMetaController.toggleTerritorialWars(town);
             TerritorialMetaController.setTerritorialWarSwitchTime(town);
 
-            TownyMessaging.sendPrefixedTownMessage(town,
-                            (TerritorialMetaController.toggledTerritorialWars(town)
-                                    ? (this.unitedUpkeep.getConfig().getString("messages.enabledTerritorial"))
-                                    : (this.unitedUpkeep.getConfig().getString("messages.disabledTerritorial"))));
-        } else {
-            TownyMessaging.sendErrorMsg("You must be a player to use this command!");
+            String message = "Territorial wars for town " + town.getName() + " have been ";
+            if (TerritorialMetaController.toggledTerritorialWars(town))
+                message += "§aenabled";
+            else
+                message += "§cdisabled";
+            player.sendMessage(message);
         }
         return true;
     }

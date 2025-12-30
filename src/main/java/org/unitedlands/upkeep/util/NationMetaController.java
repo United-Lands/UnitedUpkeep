@@ -28,7 +28,7 @@ public class NationMetaController {
                 MetaDataUtil.addNewBooleanMeta(obj, bdf.getKey(), bool, true);
             }
         }
-
+        
     }
 
     public static boolean isOfficialNation(TownyObject obj, String type) {
